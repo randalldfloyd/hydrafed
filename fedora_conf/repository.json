@@ -1,0 +1,39 @@
+{
+    "name" : "repo",
+    "jndiName" : "",
+    "workspaces" : {
+        "predefined" : ["default"],
+        "default" : "default",
+        "allowCreation" : true
+    },
+    "externalSources" : {
+        "federated-directory" : {
+            "classname" : "org.fcrepo.connector.file.FedoraFileSystemConnector",
+            "directoryPath" : "/home/rdfloyd/repository/xubmit/fs",
+            "projections" : [ "default:/xubmitfs => /", "default:/inauthors => /inauthors", "default:/lilly => /lilly" ],
+            "contentBasedSha1" : "false",
+            "readonly" : "false",
+            "extraPropertiesStorage" : "json",
+            "cacheTtlSeconds" : 5
+        }  
+    },
+    "storage" : {
+        "cacheName" : "FedoraRepository",
+        "cacheConfiguration" : "${fcrepo.ispn.configuration:config/infinispan/leveldb-default/infinispan.xml}",
+        "binaryStorage" : {
+            "type" : "file",
+            "directory" : "${fcrepo.binary.directory:target/binaries}",
+            "minimumBinarySizeInBytes" : 4096
+        }
+    },
+    "security" : {
+        "anonymous" : {
+            "roles" : ["readonly","readwrite","admin"],
+            "useOnFailedLogin" : false
+        },
+        "providers" : [
+            { "classname" : "org.fcrepo.auth.common.BypassSecurityServletAuthenticationProvider" }
+        ]
+    },
+    "node-types" : ["fedora-node-types.cnd"]
+}
