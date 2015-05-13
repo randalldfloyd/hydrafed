@@ -1,0 +1,13 @@
+
+XML:
+curl -u fedoraAdmin:fedoraAdmin  -X PUT -H"Content-Type: message/external-body; access-type=URL; URL=\"http://localhost:8983/fedora/rest/inauthors/VAA2347/VAA2347.xml\"" "http://localhost:8983/fedora/rest/dev/VAA2347/encoded_text"
+
+Cover JPG:
+curl -u fedoraAdmin:fedoraAdmin  -X PUT -H"Content-Type: message/external-body; access-type=URL; URL=\"http://localhost:8983/fedora/rest/inauthors/VAA2347/VAA2347-001.jpg\"" "http://localhost:8983/fedora/rest/dev/VAA2347/cover"
+
+
+PDF:
+curl -u fedoraAdmin:fedoraAdmin  -X PUT -H"Content-Type: message/external-body; access-type=URL; URL=\"http://localhost:8983/fedora/rest/inauthors/VAA2347/VAA2347.pdf\"" "http://localhost:8983/fedora/rest/dev/VAA2347/printable"
+
+Delete:
+curl -u fedoraAdmin:fedoraAdmin -X DELETE "http://localhost:8983/fedora/rest/dev/VAA2347/cover/fcr:tombstone"

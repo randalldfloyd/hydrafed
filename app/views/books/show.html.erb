@@ -11,9 +11,18 @@
 </p>
 
 <p>
-  <%= link_to 'Encoded Text', @book.uri + '/encodedtext'%>
+<% if @book.respond_to? 'cover' %>
+  <%= image_tag(@book.cover.uri, height: "225", width: "175" ) %>
+<% end %>
 </p>
 
+<ul>
+<% @book.serialize_attached_files.each do |key| %>
+  <li>
+  <%= link_to key.to_s.humanize, @book.send(key).uri %>
+  </li>
+<% end %>
+</ul>
 
 <%= link_to 'Edit', edit_book_path(@book) %> |
 <%= link_to 'Back', books_path %>
