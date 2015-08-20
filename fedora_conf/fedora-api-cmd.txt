@@ -1,3 +1,5 @@
+PDF:
+curl -u fedoraAdmin:fedoraAdmin  -X PUT -H"Content-Type: message/external-body; access-type=URL; URL=\"http://localhost:8983/fedora/rest/inauthors/VAA2347/VAA2347.pdf\"" "http://localhost:8983/fedora/rest/dev/VAA2347/printable"
 
 XML:
 curl -u fedoraAdmin:fedoraAdmin  -X PUT -H"Content-Type: message/external-body; access-type=URL; URL=\"http://localhost:8983/fedora/rest/inauthors/VAA2347/VAA2347.xml\"" "http://localhost:8983/fedora/rest/dev/VAA2347/encoded_text"
@@ -5,9 +7,24 @@ curl -u fedoraAdmin:fedoraAdmin  -X PUT -H"Content-Type: message/external-body; 
 Cover JPG:
 curl -u fedoraAdmin:fedoraAdmin  -X PUT -H"Content-Type: message/external-body; access-type=URL; URL=\"http://localhost:8983/fedora/rest/inauthors/VAA2347/VAA2347-001.jpg\"" "http://localhost:8983/fedora/rest/dev/VAA2347/cover"
 
-
-PDF:
-curl -u fedoraAdmin:fedoraAdmin  -X PUT -H"Content-Type: message/external-body; access-type=URL; URL=\"http://localhost:8983/fedora/rest/inauthors/VAA2347/VAA2347.pdf\"" "http://localhost:8983/fedora/rest/dev/VAA2347/printable"
-
 Delete:
 curl -u fedoraAdmin:fedoraAdmin -X DELETE "http://localhost:8983/fedora/rest/dev/VAA2347/cover/fcr:tombstone"
+
+Given that I have an existing ActiveFedora ojbect node at 'http://localhost:8983/fedora/rest/dev/VAA2347', and a federated content node at 'http://localhost:8983/fedora/rest/inauthors/VAA2347/VAA2347.pdf':
+
+$ curl -u fedoraAdmin:fedoraAdmin  -X PUT -H"Content-Type: message/external-body; access-type=URL; URL=\"http://localhost:8983/fedora/rest/inauthors/VAA2347/VAA2347.pdf\"" "http://localhost:8983/fedora/rest/dev/VAA2347/printable"
+
+$ rails c
+2.1.5 :001 > book = Book.find('/dev/VAA2347')
+ => #<Book id: "VAA2347", title: "Abe Martin of Brown County, Indiana", author: "Hubbard, Kin"> 
+
+2.1.5 :002 > book.serialize_attached_files
+ => [:printable] 
+
+2.1.5 :003 > book.respond_to? 'printable'
+ => true 
+
+2.1.5 :004 > book.printable.uri
+ => "http://127.0.0.1:8983/fedora/rest/dev/VAA2347/printable"
+
+
